@@ -123,12 +123,12 @@ def feature_selection_plot(inp_df,inp_feature_count,inp_model_name):
     df_plot=inp_df.tail(inp_feature_count).reset_index(drop=True)
     fig=go.Figure()
     fig.add_trace(go.Bar(x=df_plot['Importance'],
-                        y=df_plot['Features'],
-                        orientation='h'))
+                         y=df_plot['Features'],
+                         orientation='h'))
     fig.update_traces(marker_color='steelblue')
-    fig.update_traces(title='Importance')
-    fig.update_traces(title='Features')
-    fig.update_traces(title='Feature selection using {}'.format(inp_model_name))
+    fig.update_xaxes(title='Importance')
+    fig.update_yaxes(title='Features')
+    fig.update_layout(title='Feature selection using {}'.format(inp_model_name))
     fig.show(config={'displaylogo':False})
     return inp_df
 
@@ -505,9 +505,9 @@ def variability(x_train,df):
         print('No columns with 0 std dev.')
     else:
         display(pd.DataFrame(zero_varinace,columns=['Features']))
-    display(pd.DataFrame(df.describe().loc['std']).round(4))
-    col_drop.extend(zero_variance)
-    return selected_features, selected_features_dict, col_drop
+    #display(pd.DataFrame(df.describe().loc['std']).round(4))
+        col_drop.extend(zero_variance)
+    return selected_features,selected_features_dict,col_drop
 
 
 # In[ ]:
@@ -539,7 +539,7 @@ def lin_dep(cat_l,num_l,df,col_drop):
     return col_drop
 
 
-def variability(cat_l,num_l,col_drop):
+def variability_p(cat_l,num_l,col_drop):
     for i in num_l:
         if(df[i].describe().loc['std']==0):
             col_drop_append(i)
@@ -554,7 +554,7 @@ def preprocess_df(col_drop,df):
 
 
 def model_features(x_train_processed_balanced):
-    feature_count=10
+    feature_count=25
     
     selected_model_features={}
     
@@ -600,9 +600,9 @@ def feature_select_pls(x_train_processed_balanced,y_train_processed_balanced,sel
 
 
 def final_feature_set(x_train_processed_balanced,selected_model_features):
-    feature_selection_mode="U"
+    feature_selection_mode='U'
     add_features='N'
-    col_add=[]
+    col_add=["dummy1","dummy2"]
     
     if feature_selection_mode=='I':
         selected_features=list(reduce(set.intersection,(set(val) for val in selected_model_features.values())))
@@ -611,7 +611,7 @@ def final_feature_set(x_train_processed_balanced,selected_model_features):
     else:
         selected_features=list(reduce(set.union,(set(val) for val in selected_model_features.values())))
         
-    if add_feature=='Y':
+    if add_features=='Y':
         selected_features.extend(col_add)
         selected_features=list(set(selected_features))
         

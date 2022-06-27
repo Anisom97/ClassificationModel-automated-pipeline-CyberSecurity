@@ -105,6 +105,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 
+import config as m
+
 import plotly.io as pio
 pio.renderers.default="notebook"
 
@@ -359,8 +361,9 @@ def display_data(data_table,sek_col=None):
 
 
 def target_var_set(df):
+    
     if df[m.target_var].dtypes!=object:
-        df[m.target_var]=df[ma.target_var].astype('str')
+        df[m.target_var]=df[m.target_var].astype('str')
         
     print(colored("Selected target variable is:",'magenta',attrs=['bold']),colored("{}",'blue',attrs=['bold']).format(m.target_var))
         
@@ -451,15 +454,15 @@ def multi_collinear(x_train_processed):
     vifs=pd.DataFrame(vifs)
     vifs_df=vifs.sort_values(by=['VIF'],ascending=True)
     
-    vif_df['colors']=np.where(vif_df.VIF<=5,'yellowgreen',
-                                 np.where((vif_df.VIF>5) & (vif_df.VIF<=10),'steelblue','tomato'))
+    vifs_df['colors']=np.where(vifs_df.VIF<=5,'yellowgreen',
+                                 np.where((vifs_df.VIF>5) & (vifs_df.VIF<=10),'steelblue','tomato'))
     
     Layout=go.Layout(title="VIF plot", xaxis=dict(title='VIF'),yaxis=dict(title='Features'))
-    fig=go.Figure(go.Bar(x=vif_df.VIF,y=vif_df.index.tolist(),
-                         orientation='h',marker_color=vif_df['colors']),layout=layout)
-    fig.add_shape(type="line",x0=5,y0=0,x1=5,y1=len(vif_df.index.tolist()),
+    fig=go.Figure(go.Bar(x=vifs_df.VIF,y=vifs_df.index.tolist(),
+                         orientation='h',marker_color=vifs_df['colors']),layout=Layout)
+    fig.add_shape(type="line",x0=5,y0=0,x1=5,y1=len(vifs_df.index.tolist()),
                   line=dict(color="midnightblue",width=2,dash="dot"))
-    fig.add_shape(type="line",x0=10,y0=0,x1=10,y1=len(vif_df.index.tolist()),
+    fig.add_shape(type="line",x0=10,y0=0,x1=10,y1=len(vifs_df.index.tolist()),
                   line=dict(color="midnightblue",width=2,dash="dot"))
     
     fig.update_layout(width=1000,height=800)
@@ -470,7 +473,7 @@ def multi_collinear(x_train_processed):
 def multi_col_vars(vifs):
     multicorr_vars=vifs['VIF'].loc[lambda x:x>=10].index.tolist()
     if len(multicorr_vars)>0:
-        print("{}".format(len(multicorr_vars)),"Features causin high multi colinearity! {}".format('\n'.join(multicorr.vars)))
+        print("{}".format(len(multicorr_vars)),"Features causin high multi colinearity! {}".format('\n'.join(multicorr_vars)))
     else:
         print("No multi-colinearity in the feature space!")
         

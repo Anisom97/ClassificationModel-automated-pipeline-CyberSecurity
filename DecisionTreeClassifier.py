@@ -5,15 +5,15 @@
 
 
 import pandas as pd
-from sklearn.model_selection import GridSearchCv
+from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import KFold
-from Python.display import HTML, display, Markdown, clear_output
+from IPython.display import HTML, display, Markdown, clear_output
 import sys
 import pandas as pd
 from pandas import ExcelWriter
 from pandas import ExcelFile
-from cerberus.client import CerberusClient
-import awswrangler as wr
+#from cerberus.client import CerberusClient
+#import awswrangler as wr
 import numpy as mp
 from datetime import date, timedelta, datetime
 import matplotlib.pyplot as plt
@@ -105,8 +105,12 @@ import plotly.express as px
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 
+import config as m
+
 import plotly.io as pio
 pio.renderers.default="notebook"
+
+import Modelling_pipeline_funcs as mp
 
 
 # In[ ]:
@@ -117,7 +121,7 @@ def DT_model(x_train,y_train,cv_k,cv_method):
         params=m.param_dt
         
         classifier=DecisionTreeClassifier(criterion='gini',splitter='best',random_state=369)
-        dt_model,cv_scores_dt,y_pred_train_dt,yz=cross_valid_result(classifier,x_train,y_train,cv_k,params)
+        dt_model,cv_scores_dt,y_pred_train_dt,yz=mp.cross_valid_result(classifier,x_train,y_train,cv_k,params)
         
     else:
         classifier=DecisionTreeClssifier(criterion='gini',splitter='best',max_depth=5,min_samples_split=3,min_sample_leaf=2)
@@ -151,7 +155,7 @@ def DT_structure(dt_model,final_features):
 
 
 def DT_metric(y_train,y_pred_train_dt,x_valid,y_valid,dt_model):
-    train_avg_metric_dt,valid_avg_metric_dt,y_pred_valid_dt,acc_train_dt,acc_valid_dt=model_metric_calculation(y_train,
+    train_avg_metric_dt,valid_avg_metric_dt,y_pred_valid_dt,acc_train_dt,acc_valid_dt=mp.model_metric_calculation(y_train,
                                                                                                               y_pred_train_dt,
                                                                                                               x_valid,
                                                                                                               y_valid,

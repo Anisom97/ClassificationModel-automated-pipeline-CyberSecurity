@@ -155,7 +155,7 @@ def cross_valid_result(classifier,x_data_t,y_data_t,cv_k,params):
     grid_search=GridSearchCV(classifier,param_grid=params,
                             cv=skf.split(x_data_t,y_data_t),
                             scoring='f1_macro',n_jobs=-1,verbose=3)
-    model_opt=grid_searchd_search.fit(x_data_t,y_data_t)
+    model_opt=grid_search.fit(x_data_t,y_data_t)
     
     cv_res_df=pd.DataFrame(data=model_opt.cv_results_)
     cv_res_df.drop(['mean_fit_time','std_fit_time','mean_score_time','std_test_score','params'],axis=1,inplace=True)
@@ -633,7 +633,7 @@ def final_feature_set(x_train_processed_balanced,selected_model_features):
 
 def model_var_set():
     ensemble_dict={'train':{},'valid':{}}
-    selected_model={}
+    selected_models={}
     
     acc_df=pd.DataFrame()
     
@@ -646,5 +646,5 @@ def model_var_set():
     f1_train=pd.DataFrame()
     f1_valid=pd.DataFrame()
     
-    return ensemble_dict,selected_models,acc_df,precision_train,precision_valid,recall_train,recall_valid,
+    return ensemble_dict,selected_models,acc_df,precision_train,precision_valid,recall_train,recall_valid,f1_train,f1_valid
 

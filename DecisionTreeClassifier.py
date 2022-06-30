@@ -139,7 +139,7 @@ def cross_val_dt(cv_scores_dt):
     if cv_scores_dt==[]:
         pass
     else:
-        cross_val_plot(cv_scores_dt,"Decision Tree","F1-Score")
+        mp.cross_val_plot(cv_scores_dt,"Decision Tree","F1-Score")
 
 
 # In[ ]:

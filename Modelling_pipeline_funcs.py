@@ -204,13 +204,13 @@ def calculate_cm(cm):
 def model_metric_calculation(y_train,y_pred_train,x_valid,y_valid,model,model_name):
     classes=y_train.value_counts().index.to_list()
     
-    acc_train=accuracy_scores(y_train,y_pred_train)*100
+    acc_train=accuracy_score(y_train,y_pred_train)*100
     class_report_train=classification_report(y_train,y_pred_train,
                                             target_names=classes,output_dict=True)
     
     y_pred_valid=model.predict(x_valid)
     acc_valid=accuracy_score(y_valid,y_pred_valid)*100
-    class_report_train=classification_report(y_valid,y_pred_valid,
+    class_report_valid=classification_report(y_valid,y_pred_valid,
                                             target_names=classes,output_dict=True)
     
     kappa_train=cohen_kappa_score(y_train,y_pred_train)

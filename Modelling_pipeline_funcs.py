@@ -167,7 +167,7 @@ def cross_valid_result(classifier,x_data_t,y_data_t,cv_k,params):
     classifier=classifier.set_params(**opt_params)
     final_model=classifier.fit(x_data_t,y_data_t)
     y_pred_t=final_model.predict(x_data_t)
-    cv_scores=cross_valid_score(classifier,x_data_t,y_data_t,cv=cv_k,scoring='f1_macro')
+    cv_scores=cross_val_score(classifier,x_data_t,y_data_t,cv=cv_k,scoring='f1_macro')
     clear_output()
     
     display(Markdown('__Cross validation for TRAIN dataset__'))
@@ -318,7 +318,7 @@ def model_metric_calculation(y_train,y_pred_train,x_valid,y_valid,model,model_na
 # In[ ]:
 
 
-def display_data(data_table,sek_col=None):
+def display_data(data_table,sel_col=None):
     data_table_series=[data_table[i] for i in data_table.columns]
     
     cell_color=[]
@@ -333,12 +333,12 @@ def display_data(data_table,sek_col=None):
                 cell_color.append(['lightgreen']*n)
     fig=go.Figure(data=[go.Table(
         header=dict(values=list(data_table.columns),
-                   fill_color='darkslategrey',
+                   fill_color='lightgreen',
                    align='center',
                    font=dict(color='white', size=15)
                    ),
         cells=dict(values=data_table_series,
-                  ill_color='darkslategrey',
+                   fill_color='lightgreen',
                    align='center',
                    font=dict(color='black', size=11)
                    ))]) 

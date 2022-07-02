@@ -293,8 +293,8 @@ def model_metric_calculation(y_train,y_pred_train,x_valid,y_valid,model,model_na
     display(Markdown('_Performance Metrics of **{}** for different classes: **VALIDATION DATA**_'.format(model_name)))
     display_data(valid_cr_metric.round(4))
     
-    train_avg_metric=cr_dt_train[len(classes)+1:].T
-    valid_avg_metric=cr_dt_valid[len(classes)+1:].T
+    train_avg_metric=cr_df_train[len(classes)+1:].T
+    valid_avg_metric=cr_df_valid[len(classes)+1:].T
     
     train_avg_metric['micro_avg']=precision_recall_fscore_support(y_train,
                                                                  y_pred_train, average='micro')

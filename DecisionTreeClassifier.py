@@ -168,8 +168,8 @@ def DT_metric(y_train,y_pred_train_dt,x_valid,y_valid,dt_model):
 
 
 def DT_store(y_pred_valid,x_valid_cp):
-    pred_valid_dt=pd.DataFrame(y_pred_valid_dt,columns=['pred_valid_dt'])
+    pred_valid_dt=pd.DataFrame(y_pred_valid,columns=['pred_valid_dt'])
     x_valid_cp=x_valid_cp.reset_index().drop('index',axis=1)
-    x_valid_cp['xxx']=x_valid_cp['xxx'].astype(str)
+    #x_valid_cp['xxx']=x_valid_cp['xxx'].astype(str)
     return x_valid_cp,pred_valid_dt
 
